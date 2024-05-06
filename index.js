@@ -1,16 +1,10 @@
-function minDepth(root) {
-  if (!root) return 0;
-  const queue = [root];
-  let depth = 1;
-  while (queue.length) {
-    const size = queue.length;
-    for (let i = 0; i < size; i++) {
-      const node = queue.shift();
-      if (!node.left && !node.right) return depth;
-      if (node.left) queue.push(node.left);
-      if (node.right) queue.push(node.right);
+function coinChange(coins, amount) {
+  const dp = new Array(amount + 1).fill(amount + 1);
+  dp[0] = 0;
+  for (const coin of coins) {
+    for (let i = coin; i <= amount; i++) {
+      dp[i] = Math.min(dp[i], dp[i - coin] + 1);
     }
-    depth++;
   }
-  return depth;
+  return dp[amount] > amount ? -1 : dp[amount];
 }
