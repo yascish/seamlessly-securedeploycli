@@ -1,10 +1,7 @@
-function coinChange(coins, amount) {
-  const dp = new Array(amount + 1).fill(amount + 1);
-  dp[0] = 0;
-  for (const coin of coins) {
-    for (let i = coin; i <= amount; i++) {
-      dp[i] = Math.min(dp[i], dp[i - coin] + 1);
-    }
-  }
-  return dp[amount] > amount ? -1 : dp[amount];
-}
+// Alice should have the initial balance minus tranfer amount
+if (aliceBalanceAfter[0].amount !== ALICE_INITIAL_BALANCE - TRANSFER_AMOUNT)
+  throw new Error("Alice's balance after transfer is incorrect");
+
+// Sponsor should have the initial balance minus gas
+if (sponsorBalanceAfter[0].amount >= SPONSOR_INITIAL_BALANCE)
+  throw new Error("Sponsor's balance after transfer is incorrect");
