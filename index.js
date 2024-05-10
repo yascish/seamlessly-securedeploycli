@@ -1,28 +1,13 @@
-function largestDivisibleSubset(nums) {
-  nums.sort((a, b) => a - b);
-  const dp = new Array(nums.length).fill(1);
-  let maxSubsetSize = 1;
-  let maxSubsetIdx = 0;
-  for (let i = 1; i < nums.length; i++) {
-    for (let j = 0; j < i; j++) {
-      if (nums[i] % nums[j] === 0) {
-        dp[i] = Math.max(dp[i], dp[j] + 1);
-        if (dp[i] > maxSubsetSize) {
-          maxSubsetSize = dp[i];
-          maxSubsetIdx = i;
-        }
-      }
-    }
-  }
+function maxSlidingWindow(nums, k) {
   const result = [];
-  let prev = nums[maxSubsetIdx];
-  let count = maxSubsetSize;
-  for (let i = maxSubsetIdx; i >= 0; i--) {
-    if (prev % nums[i] === 0 && dp[i] === count) {
-      result.unshift(nums[i]);
-      prev = nums[i];
-      count--;
+  const queue = [];
+  for (let i = 0; i < nums.length; i++) {
+    while (queue.length && nums[i] >= nums[queue[queue.length - 1]]) {
+      queue.pop();
     }
+    queue.push(i);
+    if (queue[0] === i - k) queue.shift();
+    if (i >= k - 1) result.push(nums[queue[0]]);
   }
   return result;
 }
