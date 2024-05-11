@@ -1,13 +1,11 @@
-function maxSlidingWindow(nums, k) {
-  const result = [];
-  const queue = [];
-  for (let i = 0; i < nums.length; i++) {
-    while (queue.length && nums[i] >= nums[queue[queue.length - 1]]) {
-      queue.pop();
+function generate(numRows) {
+  const triangle = [];
+  for (let i = 0; i < numRows; i++) {
+    const row = new Array(i + 1).fill(1);
+    for (let j = 1; j < row.length - 1; j++) {
+      row[j] = triangle[i - 1][j - 1] + triangle[i - 1][j];
     }
-    queue.push(i);
-    if (queue[0] === i - k) queue.shift();
-    if (i >= k - 1) result.push(nums[queue[0]]);
+    triangle.push(row);
   }
-  return result;
+  return triangle;
 }
