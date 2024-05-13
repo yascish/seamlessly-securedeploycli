@@ -1,11 +1,24 @@
-function generate(numRows) {
-  const triangle = [];
-  for (let i = 0; i < numRows; i++) {
-    const row = new Array(i + 1).fill(1);
-    for (let j = 1; j < row.length - 1; j++) {
-      row[j] = triangle[i - 1][j - 1] + triangle[i - 1][j];
-    }
-    triangle.push(row);
+function canFinish(numCourses, prerequisites) {
+  const graph = new Map();
+  const visited = new Array(numCourses).fill(0);
+  for (const [course, prerequisite] of prerequisites) {
+    if (!graph.has(course)) graph.set(course, []);
+    graph.get(course).push(prerequisite);
   }
-  return triangle;
+  for (let i = 0; i < numCourses; i++) {
+    if (!dfs(i)) return false;
+  }
+  return true;
+  function dfs(course) {
+    if (visited[course] === 1) return false;
+    if (visited[course] === -1) return true;
+    visited[course] = 1;
+    if (graph.has(course)) {
+      for (const prerequisite of graph.get(course)) {
+        if (!dfs(prerequisite)) return false;
+      }
+    }
+    visited[course] = -1;
+    return true;
+  }
 }
